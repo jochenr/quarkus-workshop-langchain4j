@@ -74,6 +74,8 @@ curl http://localhost:11434/api/tags
 podman exec -it ollama ollama pull qwen3:14b
 # oder
 podman exec -it ollama ollama pull qwen3:8b
+# oder
+podman exec -it ollama ollama pull qwen3:0.6b
 ```
 
 
@@ -91,11 +93,15 @@ podman exec -it ollama ollama list
 podman exec -it ollama ollama run qwen3:14b
 # oder
 podman exec -it ollama ollama run qwen3:8b
+# oder
+podman exec -it ollama ollama run qwen3:0.6b
 
 # oder per REST API:
 curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:14b\",\"prompt\":\"Hallo\"}"
 # oder
 curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:8b\",\"prompt\":\"Hallo\"}"
+# oder
+curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:0.6b\",\"prompt\":\"Hallo\"}"
 ```
 
 ### alternative kleine Modelle / Somstiges
@@ -103,7 +109,11 @@ curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:8b\",\"prompt\":
 podman exec -it ollama ollama pull qwen3:0.6b
 curl http://localhost:11434/api/generate -d '{"model":"qwen3:0.6b","prompt":"Hallo"}'
 
+### Embedding Modell herunterladen (für RAG)
 
+```powershell
+podman exec -it ollama ollama pull nomic-embed-text
+```
 
 
 ## Quarkus App auf Ollama umkonfigurieren
