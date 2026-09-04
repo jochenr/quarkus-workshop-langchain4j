@@ -76,6 +76,8 @@ podman exec -it ollama ollama pull qwen3:14b
 podman exec -it ollama ollama pull qwen3:8b
 # oder
 podman exec -it ollama ollama pull qwen3:0.6b
+# oder
+podman exec -it ollama ollama pull qwen3:4b
 ```
 
 
@@ -95,6 +97,8 @@ podman exec -it ollama ollama run qwen3:14b
 podman exec -it ollama ollama run qwen3:8b
 # oder
 podman exec -it ollama ollama run qwen3:0.6b
+# oder
+podman exec -it ollama ollama run qwen3:4b
 
 # oder per REST API:
 curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:14b\",\"prompt\":\"Hallo\"}"
@@ -102,6 +106,8 @@ curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:14b\",\"prompt\"
 curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:8b\",\"prompt\":\"Hallo\"}"
 # oder
 curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:0.6b\",\"prompt\":\"Hallo\"}"
+# oder
+curl http://localhost:11434/api/generate -d "{\"model\":\"qwen3:4b\",\"prompt\":\"Hallo\"}"
 ```
 
 ### alternative kleine Modelle / Somstiges
