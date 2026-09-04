@@ -28,6 +28,15 @@ public class RagRetriever {
 
         return DefaultRetrievalAugmentor.builder()
                 .contentRetriever(contentRetriever)
+                .contentInjector(new ContentInjector() {
+                    @Override
+                    public ChatMessage inject(List<Content> contents, ChatMessage chatMessage) {
+                      StringBuffer prompt = new StringBuffer(((UserMessage)chatMessage).singleText());
+                      prompt.append("\nPlease, only use the following information:\n");
+                      contents.forEach(content -> prompt.append("- ").append(content.textSegment().text()).append("\n"));
+                      return new UserMessage(prompt.toString());
+                    }
+                })
                 .build();
     }
 }
