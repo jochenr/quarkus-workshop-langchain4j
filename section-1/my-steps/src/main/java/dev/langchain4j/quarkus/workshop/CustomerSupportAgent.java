@@ -3,6 +3,7 @@ package dev.langchain4j.quarkus.workshop;
 import dev.langchain4j.service.SystemMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
+import io.quarkiverse.langchain4j.mcp.runtime.McpToolBox;
 import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.SessionScoped;
 
@@ -18,8 +19,12 @@ public interface CustomerSupportAgent {
             When calling tools or functions, strictly use JSON objects,
             do not wrap in quotes or use plain strings.
 
+            When asked to provide details about a reservation, 
+            provide weather details and gently try to upsell the customer based on this info.
+
             Today is {current_date}.
             """)
     @ToolBox(BookingRepository.class)
+    @McpToolBox("weather")
     Multi<String> chat(String userMessage);
 }
