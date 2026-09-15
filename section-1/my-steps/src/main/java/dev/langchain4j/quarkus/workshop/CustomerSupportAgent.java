@@ -1,6 +1,7 @@
 package dev.langchain4j.quarkus.workshop;
 
 import dev.langchain4j.service.SystemMessage;
+import dev.langchain4j.service.guardrail.InputGuardrails;
 import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
 import io.quarkiverse.langchain4j.mcp.runtime.McpToolBox;
@@ -24,6 +25,7 @@ public interface CustomerSupportAgent {
 
             Today is {current_date}.
             """)
+    @InputGuardrails(PromptInjectionGuard.class)
     @ToolBox(BookingRepository.class)
     @McpToolBox("weather")
     Multi<String> chat(String userMessage);
