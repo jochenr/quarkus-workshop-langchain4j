@@ -1,6 +1,7 @@
 package com.tripplanner.guardrails;
 
 import dev.langchain4j.data.message.AiMessage;
+import dev.langchain4j.agent.tool.ToolExecutionRequest;
 import dev.langchain4j.guardrail.OutputGuardrailResult;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -22,6 +23,20 @@ class TripSafetyGuardrailTest {
         AiMessage message = AiMessage.from(validItineraryResultJson());
         OutputGuardrailResult result = guardrail.validate(message);
         assertTrue(result.isSuccess());
+        assertEquals("PASS", auditLog.getRecentEntries().getLast().decision());
+    }
+
+    @Test
+    void blankTextIsSkippedNotPassed() {
+        assertTrue(guardrail.validate(AiMessage.from(" ")).isSuccess());
+        assertEquals("SKIP", auditLog.getRecentEntries().getLast().decision());
+    }
+
+    @Test
+    void toolCallContentIsSkippedNotPassed() {
+        var message = AiMessage.from(ToolExecutionRequest.builder().name("itinerary").arguments("{}").build());
+        assertTrue(guardrail.validate(message).isSuccess());
+        assertEquals("SKIP", auditLog.getRecentEntries().getLast().decision());
     }
 
     @Test
