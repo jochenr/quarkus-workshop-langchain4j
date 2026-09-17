@@ -79,6 +79,17 @@
             <artifactId>quarkus-websockets-next</artifactId>
         </dependency>
 
+        <!-- Export metrics for OpenTelemetry compatible collectors -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-micrometer-opentelemetry</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-opentelemetry</artifactId>
+        </dependency>
+
         <!-- UI -->
         <dependency>
             <groupId>org.mvnpm</groupId>
