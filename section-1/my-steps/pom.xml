@@ -79,6 +79,12 @@
             <artifactId>quarkus-websockets-next</artifactId>
         </dependency>
 
+        <!-- Fault Tolerance -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-fault-tolerance</artifactId>
+        </dependency>
+
         <!-- Export metrics for OpenTelemetry compatible collectors -->
         <dependency>
             <groupId>io.quarkus</groupId>
