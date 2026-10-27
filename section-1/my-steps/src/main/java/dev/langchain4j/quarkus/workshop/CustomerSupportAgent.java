@@ -1,6 +1,8 @@
 package dev.langchain4j.quarkus.workshop;
 
-import dev.langchain4j.guardrail.InputGuardrailException;
+import org.eclipse.microprofile.faulttolerance.ExecutionContext;
+import org.eclipse.microprofile.faulttolerance.FallbackHandler;
+
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.guardrail.InputGuardrails;
 import io.quarkiverse.langchain4j.RegisterAiService;
@@ -8,11 +10,6 @@ import io.quarkiverse.langchain4j.ToolBox;
 import io.quarkiverse.langchain4j.mcp.runtime.McpToolBox;
 import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.SessionScoped;
-import org.eclipse.microprofile.faulttolerance.ExecutionContext;
-import org.eclipse.microprofile.faulttolerance.Fallback;
-import org.eclipse.microprofile.faulttolerance.FallbackHandler;
-import org.eclipse.microprofile.faulttolerance.Retry;
-import org.eclipse.microprofile.faulttolerance.Timeout;
 
 @SessionScoped
 @RegisterAiService
@@ -34,8 +31,22 @@ public interface CustomerSupportAgent {
     @InputGuardrails(PromptInjectionGuard.class)
     @ToolBox(BookingRepository.class)
     @McpToolBox("weather")
-    @Timeout(5000)
-    @Retry(maxRetries = 3, delay = 100, abortOn = InputGuardrailException.class)
+    // Fault Tolerance does not work this way with Multi return type. I put it in the implementation instead.
+    // // @Timeout(5000)
+    // @Timeout(10)
+    // @Retry(maxRetries = 3, delay = 100, abortOn = InputGuardrailException.class)
     // @Fallback(value = CustomerSupportAgentFallback.class, skipOn = InputGuardrailException.class)
     Multi<String> chat(String userMessage);
-}
+
+
+
+    // public static class CustomerSupportAgentFallback implements FallbackHandler<Multi> {
+
+    // private static final String EMPTY_RESPONSE = "Failed to get a response from the AI Model. Are you sure it's up and running, and configured correctly?";
+    //     @Override
+    //     public Multi handle(ExecutionContext context) {
+    //         return Multi.createFrom().item(EMPTY_RESPONSE);
+    //     }
+    // }
+
+} 

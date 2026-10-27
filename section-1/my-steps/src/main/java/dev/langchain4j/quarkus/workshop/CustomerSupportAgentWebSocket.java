@@ -1,4 +1,6 @@
 package dev.langchain4j.quarkus.workshop;
+import java.time.Duration;
+
 import dev.langchain4j.guardrail.InputGuardrailException;
 import io.quarkus.logging.Log;
 import io.quarkus.websockets.next.OnOpen;
@@ -23,7 +25,14 @@ public class CustomerSupportAgentWebSocket {
     @OnTextMessage
     public Multi<String> onTextMessage(String message) {
         try {
-            return customerSupportAgent.chat(message);
+            // return customerSupportAgent.chat(message);
+            return customerSupportAgent.chat(message)
+                .ifNoItem().after(Duration.ofSeconds(10)).fail()    // timeout: no first token within 10s
+                .onFailure().retry().atMost(3)                              // retry: resubscribe on failure
+                .onFailure().recoverWithItem(throwable -> {                 // fallback
+                    Log.errorf(throwable, "Error calling the LLM: %s", throwable.getMessage());
+                    return "Failed to get a response from the AI Model. Are you sure it's up and running, and configured correctly?";
+                });
         } catch (InputGuardrailException e) {
             Log.errorf(e, "Error calling the LLM: %s", e.getMessage());
             return Multi.createFrom().item("Sorry, I am unable to process your request at the moment. It's not something I'm allowed to do.");
