@@ -10,6 +10,11 @@
     <packaging>pom</packaging>
 
     <modules>
+		<!-- meine Module -->
+		<module>section-1/my-step-mcp-server</module>
+		<module>section-1/my-steps</module>
+		<module>section-2/my-steps</module>
+		
         <module>section-1/step-01</module>
         <module>section-1/step-02</module>
         <module>section-1/step-03</module>

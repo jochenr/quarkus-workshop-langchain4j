@@ -23,7 +23,8 @@ OLLAMA_MODELS
 geändert werden.  
 
 ### Start  
-
+(für iGPU unter Windows:)=
+$env:OLLAMA_IGPU_ENABLE = "1"
 .\ollama.exe serve  
 
 In einem zweiten Terminal:  
